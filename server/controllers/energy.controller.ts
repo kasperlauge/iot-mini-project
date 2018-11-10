@@ -31,7 +31,7 @@ export function getEnergy(req: Request, res: Response, next: NextFunction) {
         .json(
           dataEntries.map(d =>
             TotalEnergyDto.fromDataEntry(DataEntry.fromObject(d))
-          )
+          ).sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime())
         );
     })
     .catch(err => {
@@ -67,7 +67,7 @@ export function getGreenEnergy(
         .json(
           dataEntries.map(d =>
             GreenEnergyDto.fromDataEntry(DataEntry.fromObject(d))
-          )
+          ).sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime())
         );
     })
     .catch(err => {

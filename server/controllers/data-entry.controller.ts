@@ -17,7 +17,13 @@ export function getDataEntries(
     .skip((page - 1) * size)
     .limit(size)
     .then(dataEntries => {
-      res.status(200).json(dataEntries.map(d => DataEntry.fromObject(d)));
+      res
+        .status(200)
+        .json(
+          dataEntries
+            .map(d => DataEntry.fromObject(d))
+            .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime())
+        );
     });
 }
 
