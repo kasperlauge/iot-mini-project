@@ -6,6 +6,8 @@ import * as path from "path";
 import "./database/db";
 import dataEntryRoutes from "./routes/data-entry.route";
 
+import { foo } from "./BLL/ftp_dataimporter"
+
 const app = express();
 const PORT = process.env.PORT;
 
@@ -46,6 +48,7 @@ app.use((err, req, res, next) => {
   }
 });
 
+
 // error handler for files
 app.use((err, req, res, next) => {
   if (err.message === "Wrong file format") {
@@ -55,6 +58,8 @@ app.use((err, req, res, next) => {
     next(err);
   }
 });
+
+
 
 // Universal error handler
 app.use((err, req, res, next) => {
@@ -69,3 +74,6 @@ process.on("unhandledRejection", r => console.log(r));
 app.listen(PORT, () => {
   console.log("[Listening on port]", PORT);
 });
+
+
+foo()
