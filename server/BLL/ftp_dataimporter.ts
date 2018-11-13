@@ -1,5 +1,9 @@
 import * as Client from "ftp";
 import { Promise } from "mongoose";
+import { model } from "mongoose";
+import { IDataEntryDocument } from "../models/data-entry.model";
+
+const dataEntry = model<IDataEntryDocument>("dataEntry");
 
 const csv = require('csvtojson')
 //const file_path_name: String = "onlinedata/"
@@ -29,14 +33,14 @@ export function foo() {
         ftp_client.get(filename, function (err, stream) {
 
 
-            let dataLength: number = 0
+            //let dataLength: number = 0
 
             let filedata: String = "";
-            console.log(filename)
+            //console.log(filename)
             stream
-                .on('data', function (chunk) { dataLength += chunk.length; filedata = filedata.concat(chunk.toString('utf8')); })
+                .on('data', function (chunk) { filedata = filedata.concat(chunk.toString('utf8')); })
                 .on('end', function () {  // done
-                    console.log('The length was:', dataLength);
+                    //console.log('The length was:', dataLength);
                     //console.log(filedata)
 
 
@@ -48,19 +52,19 @@ export function foo() {
                     //Make csv into json data
                     csv({
                         noheader: false,
-                        headers: ['Date', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'],
+                        headers: ['timestamp', 'centralPowerplantDK1', 'centralPowerplantDK2', 'deCentralPowerplantDK1', 'deCentralPowerplantDK2', 'windmill1', 'windmill2', 'jutlandNorwayExchange', 'jutlandSwedenExchange', 'jutlandGermanyExchange', 'zealandSwedenExchange', 'zealandGermanyExchange', 'bornholmSwedenExchange', 'funenZealandExchange', 'temperatureMalling', 'windMalling', 'co2', 'seamillsDK', 'landmillsDK', 'solarCellsDK1', 'solarCellsDK2'],
                         delimiter: [';']
                     }).fromString(newlines).then((jsondata) => {
 
                         //The csv is esstially wrong, this is a quickfix :)
                         jsondata.forEach(element => {
                             delete element.field22
-                        });
 
-                        //console.log(jsondata.length)
-                        //console.log(jsondata[287])
-                        console.log("Success")
-                        //Save into database
+                            const newDataEntry = new dataEntry(element)
+                            newDataEntry.save().then((res) => {
+                                //console.log("Success")
+                            })
+                        });
                     });
                 });
         });
@@ -73,18 +77,31 @@ export function foo() {
                 ftp_client.list("onlinedata", function (err, list) {
                     if (err) console.log(err);
 
-                    //filter_files_by_date(list, new Date('2018-01-01'));
+                    //
 
                     let date: Date = new Date('2018-01-01');
 
-                    list = list.filter(function (element) {
-                        return (new Date(element.date) > date);
-                    });
 
+                    dataEntry.count(function (err, count) {
+                        if (count != 0) {
 
+                            dataEntry.find().sort({ "timestamp": -1 }).limit(1)
+                                .exec(function (err, docs) {
+                                    date = docs[0].timestamp
 
-                    return resolve(list)
-
+                                    list = list.filter(function (element) {
+                                        return (new Date(element.date) > date);
+                                    });
+                                    return resolve(list)
+                                })
+                        }
+                        else {
+                            list = list.filter(function (element) {
+                                return (new Date(element.date) > date);
+                            });
+                            return resolve(list)
+                        }
+                    })
                 });
 
             });
