@@ -5,6 +5,7 @@ import * as helmet from "helmet";
 import * as path from "path";
 import "./database/db";
 import dataEntryRoutes from "./routes/data-entry.route";
+import totalEnergyRoutes from "./routes/total-energy.route";
 
 import { foo } from "./BLL/ftp_dataimporter"
 
@@ -32,6 +33,7 @@ app.use(express.static(__dirname + "/../dist"));
 
 // Routes
 app.use("/api/dataentries", dataEntryRoutes);
+app.use("/api/energy", totalEnergyRoutes);
 
 app.all("*", (req: any, res: any) => {
   res.sendFile(path.resolve(__dirname + "/../dist/index.html"));

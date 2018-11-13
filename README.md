@@ -1,4 +1,4 @@
-# Backend server for system for immigrants
+# IOT mini project source code
 
 ## Prefered technologies
 
