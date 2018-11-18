@@ -4,7 +4,10 @@ import dataEntrySchema from "./data-entry-schema";
 
 const dbURI = process.env.IOT_MONGODB_URI;
 
-connect(dbURI);
+connect(
+  dbURI,
+  { useNewUrlParser: true }
+);
 
 connection.on("error", console.error.bind(console, "connection error:"));
 
