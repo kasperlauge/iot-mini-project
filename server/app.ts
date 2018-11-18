@@ -7,8 +7,6 @@ import "./database/db";
 import dataEntryRoutes from "./routes/data-entry.route";
 import totalEnergyRoutes from "./routes/total-energy.route";
 
-import { foo } from "./BLL/ftp_dataimporter"
-
 const app = express();
 const PORT = process.env.PORT;
 
@@ -76,6 +74,3 @@ process.on("unhandledRejection", r => console.log(r));
 app.listen(PORT, () => {
   console.log("[Listening on port]", PORT);
 });
-
-
-foo()
