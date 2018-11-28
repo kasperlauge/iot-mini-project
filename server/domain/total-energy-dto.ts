@@ -18,8 +18,6 @@ export class TotalEnergyDto {
     totalEnergyDto.totalGreenEnergy =
       de.landmillsDK +
       de.seamillsDK +
-      de.windmill1 +
-      de.windmill2 +
       de.solarCellsDK1 +
       de.solarCellsDK2;
     totalEnergyDto.totalEnergy =
