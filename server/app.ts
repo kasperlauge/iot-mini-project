@@ -6,6 +6,7 @@ import * as path from "path";
 import "./database/db";
 import dataEntryRoutes from "./routes/data-entry.route";
 import totalEnergyRoutes from "./routes/total-energy.route";
+import co2Routes from "./routes/co2.route";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -32,6 +33,7 @@ app.use(express.static(__dirname + "/../dist"));
 // Routes
 app.use("/api/dataentries", dataEntryRoutes);
 app.use("/api/energy", totalEnergyRoutes);
+app.use("/api/co2", co2Routes);
 
 app.all("*", (req: any, res: any) => {
   res.sendFile(path.resolve(__dirname + "/../dist/index.html"));
@@ -48,7 +50,6 @@ app.use((err, req, res, next) => {
   }
 });
 
-
 // error handler for files
 app.use((err, req, res, next) => {
   if (err.message === "Wrong file format") {
@@ -58,8 +59,6 @@ app.use((err, req, res, next) => {
     next(err);
   }
 });
-
-
 
 // Universal error handler
 app.use((err, req, res, next) => {
