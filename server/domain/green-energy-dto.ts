@@ -15,12 +15,7 @@ export class GreenEnergyDto {
       de.centralPowerplantDK1 +
       de.centralPowerplantDK2;
     greenEnergyDto.totalGreenEnergy =
-      de.landmillsDK +
-      de.seamillsDK +
-      de.windmill1 +
-      de.windmill2 +
-      de.solarCellsDK1 +
-      de.solarCellsDK2;
+      de.landmillsDK + de.seamillsDK + de.solarCellsDK1 + de.solarCellsDK2;
     greenEnergyDto.ratioOfTotalEnergy =
       greenEnergyDto.totalGreenEnergy /
       (greenEnergyDto.totalGreenEnergy + totalNonGreenEnergy);
