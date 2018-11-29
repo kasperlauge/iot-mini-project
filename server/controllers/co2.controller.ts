@@ -41,3 +41,19 @@ export function getCo2Emission(
       res.status(400).json({ error: err });
     });
 }
+
+export function getCurrentCo2Emission(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  dataEntry
+    .findOne()
+    .sort({ timestamp: -1 })
+    .then(dataEntry => {
+      res.status(200).json(Co2EmissionDto.fromDataEntry(dataEntry));
+    })
+    .catch(err => {
+      res.status(400).json({ error: err });
+    });
+}
