@@ -41,6 +41,22 @@ export function getEnergy(req: Request, res: Response, next: NextFunction) {
     });
 }
 
+export function getCurrentTotalEnergy(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  dataEntry
+    .findOne()
+    .sort({ timestamp: -1 })
+    .then(dataEntry => {
+      res.status(200).json(TotalEnergyDto.fromDataEntry(dataEntry));
+    })
+    .catch(err => {
+      res.status(400).json({ error: err });
+    });
+}
+
 export function getGreenEnergy(
   req: Request,
   res: Response,
@@ -71,6 +87,22 @@ export function getGreenEnergy(
             .map(d => GreenEnergyDto.fromDataEntry(DataEntry.fromObject(d)))
             .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime())
         );
+    })
+    .catch(err => {
+      res.status(400).json({ error: err });
+    });
+}
+
+export function getCurrentGreenEnergy(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  dataEntry
+    .findOne()
+    .sort({ timestamp: -1 })
+    .then(dataEntry => {
+      res.status(200).json(GreenEnergyDto.fromDataEntry(dataEntry));
     })
     .catch(err => {
       res.status(400).json({ error: err });
@@ -113,6 +145,22 @@ export function getResourceEnergy(
     });
 }
 
+export function getCurrentResourceEnergy(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  dataEntry
+    .findOne()
+    .sort({ timestamp: -1 })
+    .then(dataEntry => {
+      res.status(200).json(ResourceEnergyDto.fromDataEntry(dataEntry));
+    })
+    .catch(err => {
+      res.status(400).json({ error: err });
+    });
+}
+
 export function getEnergyExchange(
   req: Request,
   res: Response,
@@ -143,6 +191,22 @@ export function getEnergyExchange(
             .map(d => EnergyExchangeDto.fromDataEntry(DataEntry.fromObject(d)))
             .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime())
         );
+    })
+    .catch(err => {
+      res.status(400).json({ error: err });
+    });
+}
+
+export function getCurrentExchangeEnergy(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  dataEntry
+    .findOne()
+    .sort({ timestamp: -1 })
+    .then(dataEntry => {
+      res.status(200).json(EnergyExchangeDto.fromDataEntry(dataEntry));
     })
     .catch(err => {
       res.status(400).json({ error: err });

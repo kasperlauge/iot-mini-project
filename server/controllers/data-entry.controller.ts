@@ -72,3 +72,19 @@ export function insertDataEntry(
     res.status(201).json(DataEntry.fromObject(de));
   });
 }
+
+export function getCurrentDataEntry(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  dataEntry
+    .findOne()
+    .sort({ timestamp: -1 })
+    .then(dataEntry => {
+      res.status(200).json(DataEntry.fromObject(dataEntry));
+    })
+    .catch(err => {
+      res.status(400).json({ error: err });
+    });
+}
